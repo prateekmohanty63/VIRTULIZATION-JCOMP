@@ -71,3 +71,18 @@ def signout(request):
     auth.logout(request)
     messages.success(request, "Signed out successfully", context)
     return redirect('index')
+
+
+def signIn(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(request, username=username, password=password)
+
+        # based on returned value user get logged .
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, "Signed in successfully")
+            return redirect('index')
+        else:
+            return render(request, 'signin_fail.html')
