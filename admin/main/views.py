@@ -1,7 +1,21 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.models import User
-from django.contrib import messages , auth
+
+from collections import UserList
+from os import stat_result
+from pickle import NONE
+from pydoc import Doc
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib import messages
+
+from main.models import Hospital, Doctor, DocReview, DocAppointment, HospitalReview
+from .forms import DoctorForm, HospitalForm
+from django import forms
+from .choices import Department, States
+from django.contrib import auth
+from django.core.files.storage import FileSystemStorage
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -56,6 +70,62 @@ def userRegistration(request):
     if request.method == "GET":
         print("GET")
         return render(request, "user_registration.html")
+
+
+
+
+def doctorRegistration(request):
+
+    if request.method == "POST":
+        # creating an instance of the Doctor registration form
+        doctorForm = DoctorForm(request.POST, request.FILES)
+
+        # print(doctorForm)
+
+        username = request.POST['Username']
+        password = request.POST['psw']
+        email = request.POST['Email']
+        print(username, password, email)
+
+        emailerror = ""
+        usernameerror = ""
+
+        if User.objects.filter(username=username).exists():
+            usernameerror = "Username already exists"
+        else:
+            usernameerror = ""
+
+        if User.objects.filter(email=email).exists():
+            emailerror = "email already exists"
+        else:
+            emailerror = ""
+
+        context = {
+            "form": DoctorForm,
+            "emailerror": emailerror,
+            "usernameerror": usernameerror
+        }
+
+        # if there is an error
+        if usernameerror != "" or emailerror != "":
+            print("in")
+            return render(request, 'doctor_regestration.html', context)
+
+        if doctorForm.is_valid():
+            print(username)
+            user = User.objects.create_user(
+                username=username, password=password, email=email)
+            user.save()
+
+            doctorForm.save()
+            return HttpResponse("Registered")
+
+    else:
+        form = DoctorForm()
+        context = {'form': form}
+
+        return render(request, 'doctor_regestration.html', context)
+
 
 
 

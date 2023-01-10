@@ -72,7 +72,7 @@
                 <!-- This is right side of the container for form-->
                 <div class="col-md-6 col-sm-6">
                     <!-- setting up the form-->
-                    <form id="user-registration" role="form" name="doct-reg" method="post" action="#" onsubmit="return checkPass()" enctype=multipart/form-data>
+                    <form id="user-registration" role="form" name="doct-reg" method="post" action="/main/doctorReg/" onsubmit="return checkPass()" enctype=multipart/form-data>
                         {% csrf_token %}
                         <!-- setting up animation for form to appear-->
                         <div class="reg_title wow fadeInUp animated" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
