@@ -127,6 +127,78 @@ def doctorRegistration(request):
         return render(request, 'doctor_regestration.html', context)
 
 
+def hospitalRegistration(request):
+
+    if request.method == "POST":
+        hospitalform = HospitalForm(request.POST, request.FILES)
+
+        username = request.POST['Username']
+        password = request.POST['psw']
+        confirmPassword = request.POST['cpsw']
+        email = request.POST['Email']
+        hospitalReg = request.POST.get('HospitalRegistrationNumber', '123')
+
+        print(username, password, email, hospitalReg)
+
+        usernameerror = ""
+        emailerror = ""
+        regerror = ""
+        passworderror = ""
+
+        # checking if the username already exists
+        if User.objects.filter(username=username).exists():
+            usernameerror = "email id already exists"
+        else:
+            usernameerror = ""
+
+        # checking if the email already exists
+        if User.objects.filter(email=email).exists():
+            emailerror = "Email already exists"
+        else:
+            emailerror = ""
+
+        # checking hospital registration number already exists
+        print("before")
+        if Hospital.objects.filter(HospitalRegisterationNumber=hospitalReg).exists():
+            regerror = "Hospital with the registraiton number already exists"
+        else:
+            regerror = ""
+
+        if password != confirmPassword:
+            passworderror = "Passwords not matching"
+        else:
+            passworderror = ""
+
+        print("after")
+
+        context = {
+            "form": HospitalForm,
+            "usernameerror": usernameerror,
+            " emailerror": emailerror,
+            " regerror": regerror,
+            " passworderror": passworderror
+        }
+
+        if usernameerror != "" or emailerror != "" or regerror != "" or passworderror != "":
+            return render(request, 'Hospitalregistion.html', context)
+
+        if hospitalform.is_valid():
+            user = User.objects.create_user(
+                username=username, password=password, email=email)
+            user.save()
+
+            hospitalform.save()
+
+            return HttpResponse("Hospital registered")
+
+    if request.method == "GET":
+        hospitalform = HospitalForm()
+        context = {'form': hospitalform}
+        return render(request, 'Hospitalregistion.html', context)
+
+
+
+
 
 
 def signUp(request):
