@@ -67,7 +67,7 @@
                 <!--Right Half(Form)-->
                 <div class="col-md-6 col-sm-6">
                     <!-- Form for User Registration on submitting goes to index page with verification message-->
-                    <form id="user-registration" role="form" method="post" action="/userReg/" onsubmit="return checkPass()" enctype=multipart/form-data>
+                    <form id="user-registration" role="form" method="post" action="/main/userReg/" onsubmit="return checkPass()" enctype=multipart/form-data>
                         {% csrf_token %}
                         <!--Header above the form-->
                         <!--below class="wow fadeInUp" is for the pop-up animation-->

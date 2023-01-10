@@ -86,3 +86,5 @@ def signIn(request):
             return redirect('index')
         else:
             return render(request, 'signin_fail.html')
+    else:
+        return render(request, 'signin.html')
