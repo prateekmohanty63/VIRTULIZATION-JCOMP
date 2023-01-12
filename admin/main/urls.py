@@ -18,6 +18,7 @@ urlpatterns=[
 
 
     # appointment crud
+    path('docAppointment/',views.DoctorAppointment,name='docAppointment'),
 
   
 ]
