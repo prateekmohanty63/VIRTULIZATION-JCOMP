@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 from .views import *
 
 
+
 urlpatterns=[
     path('',views.index,name='index'),
     path('signout/',views.signout,name='signout'),
@@ -14,4 +15,9 @@ urlpatterns=[
     path('userReg/',views.userRegistration,name='userReg'),
     path('doctorReg/',views.doctorRegistration,name='doctorReg'),
     path('hospitalReg/',views.hospitalRegistration,name='hospitalReg'),
+
+
+    # appointment crud
+
+  
 ]

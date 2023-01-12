@@ -16,6 +16,9 @@ from .choices import Department, States
 from django.contrib import auth
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
+from rest_framework import viewsets,status
+from .serializers import AppointmentSerializers
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -230,3 +233,84 @@ def signIn(request):
             return render(request, 'signin_fail.html')
     else:
         return render(request, 'signin.html')
+
+
+
+
+# doctor appointment
+
+def DoctorAppointment(request):
+
+    if request.method == "POST":
+        DoctorUsername = request.POST['dname']
+        DateOfAppointment = request.POST['date']
+        additionalMessage = request.POST['message']
+
+        # Checking weather the user is signed in or not
+        if not request.user.is_authenticated:
+            messages.error(request, "Please sign in ")
+            return redirect('index')
+
+        # retriving the user and doctor
+        user = User.objects.all().filter(username=request.user.username).get()
+        doctor = Doctor.objects.all().filter(Username=DoctorUsername).get()
+        # print(user)
+
+        # checking weather the doctor exists or not
+        if not doctor:
+            messages.error(request, 'Doctor does not exists')
+            return redirect('index')
+
+        appointment = DocAppointment(
+            user=user, doctor=doctor, dateOfAppointment=DateOfAppointment, AdditionalMessage=additionalMessage)
+        appointment.save()
+
+
+        userSubject = "Reference for your appointment"
+        userBody = ("Hi " + user.username + 
+                    "\n\nHere is what we got from you" + 
+                    "\n\nDoctor Name: " + doctor.FirstName + doctor.LastName + 
+                    "\n\nAppointment Date: " + DateOfAppointment + 
+                    "\n\nAdditional Message: " + additionalMessage + 
+                    "\n\nThe doctor will message to your appointment enquiry to your email in a span of 2-3 days" + 
+                    "\n\nFor any queries please reply to this mail"
+                )
+        userEmail = request.user.email
+
+        useremail = send_mail (
+                userSubject,
+                userBody,
+                "prateekmohanty63@gmail.com",
+                ["prateekmohanty63@gmail.com"],
+                fail_silently=False
+        )
+
+        doctorSubject = "Appointment enquiry from " + user.username 
+        doctorBody = ("Hi Doctor " + doctor.FirstName + doctor.LastName + 
+                    "\n\nThis is to inform you that we got an appointment request from " + user.username+ 
+                    "\n\nAppointment Date: " + DateOfAppointment + 
+                    "\n\nAdditional Message: " + additionalMessage + 
+                    "\n\nPlease respond to his enquiry within 2-3 days, and contact with the user if necessary" + 
+                    "\n\nFor any queries please reply to this mail"
+                )
+
+        doctorEmail = doctor.Email
+
+        doctoremail= send_mail (
+                doctorSubject,
+                doctorBody,
+                "prateekmohanty63@gmail.com",
+                [doctorEmail],
+                fail_silently=False
+        )
+
+        # send a mail to doctor and the user
+
+        messages.success(request, 'Appointment sent successfully')
+        return redirect('index')
+
+
+
+
+
+ 
