@@ -49,6 +49,11 @@ class Doctor(models.Model):
 
 
 
+class TempDoc(models.Model):   # doctor last name
+    Email = models.CharField(max_length=150)      # doctor email 
+    Username = models.CharField(max_length=150) 
+
+
 
 class Hospital(models.Model):
     HospitalName = models.CharField(max_length=150)   # Hospital Name  

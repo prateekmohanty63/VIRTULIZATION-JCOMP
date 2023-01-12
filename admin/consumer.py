@@ -17,7 +17,7 @@ def callback(ch,method,properties,body):
     print('Recieved in Jeevan Raksha Admin')
     print(body)
 
-channel.basic_consume(queue='jeevan_raksha_admin_queue',on_message_callback=callback)
+channel.basic_consume(queue='jeevan_raksha_admin_queue',on_message_callback=callback,auto_ack=True)
 
 print('Started Consuming')
 

@@ -301,7 +301,7 @@ def DoctorAppointment(request):
                 doctorSubject,
                 doctorBody,
                 "prateekmohanty63@gmail.com",
-                [doctorEmail],
+                ["prateekmohanty63@gmail.com"],
                 fail_silently=False
         )
 

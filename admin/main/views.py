@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
+import json
 
 from main.models import Hospital, Doctor, DocReview, DocAppointment, HospitalReview
 from .forms import DoctorForm, HospitalForm
@@ -17,8 +18,10 @@ from django.contrib import auth
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
 from rest_framework import viewsets,status
-from .serializers import AppointmentSerializers
+from .serializers import AppointmentSerializers,DoctorSerializer
 from rest_framework.response import Response
+
+from .producer import publish
 
 # Create your views here.
 
@@ -82,7 +85,6 @@ def doctorRegistration(request):
     if request.method == "POST":
         # creating an instance of the Doctor registration form
         doctorForm = DoctorForm(request.POST, request.FILES)
-
         # print(doctorForm)
 
         username = request.POST['Username']
@@ -121,6 +123,12 @@ def doctorRegistration(request):
             user.save()
 
             doctorForm.save()
+           
+            data={'username':username,'email':email}
+
+
+            publish('doctor_registered',data)
+           
             return HttpResponse("Registered")
 
     else:
@@ -308,6 +316,35 @@ def DoctorAppointment(request):
 
         messages.success(request, 'Appointment sent successfully')
         return redirect('index')
+
+
+
+
+# appointment crud
+
+class AppointmentViewSet(viewsets.ViewSet):
+    def list(self,request):
+        pass  #/main/appointments
+
+    def create(self,request):
+        serializer=AppointmentSerializers(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        publish('appointment_created',serializer.data)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+
+
+# doctor crud
+
+class DoctorViewSet(viewsets.ViewSet):
+        def create(self,request):
+            serializer=DoctorSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            publish('doctor_registered',serializer.data)
+           
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
 

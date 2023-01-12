@@ -5,6 +5,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import *
 
+from .views import AppointmentViewSet,DoctorViewSet
 
 
 urlpatterns=[
@@ -19,6 +20,18 @@ urlpatterns=[
 
     # appointment crud
     path('docAppointment/',views.DoctorAppointment,name='docAppointment'),
+
+
+    # rest crud
+
+      path('registerDoctor/', DoctorViewSet.as_view({
+        'post':'create'
+    })),
+
+     path('createAppointment/', AppointmentViewSet.as_view({
+        'get':'list',
+        'post':'create'
+    }))
 
   
 ]

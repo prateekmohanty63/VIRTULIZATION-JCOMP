@@ -14,12 +14,12 @@ services:
       - db 
   
   queue:
+    container_name: jeevan_raksha_admin_queue
     build:
       context: . 
       dockerfile: Dockerfile
     command: 'python consumer.py '
-    depends_on:
-      - db
+   
 
   db:
     image: mysql:5.7.22
