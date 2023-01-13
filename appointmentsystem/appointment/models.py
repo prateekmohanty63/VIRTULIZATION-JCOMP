@@ -90,7 +90,7 @@ class Hospital(models.Model):
 
 # Doctor review
 class DocReview(models.Model):
-    doctor=models.ForeignKey(Doctor,on_delete=models.DO_NOTHING)
+    doctor=models.ForeignKey(TempDoc,on_delete=models.DO_NOTHING)
     star_rating=models.TextField(blank=True)
     non_rating=models.TextField(blank=True)
     review=models.TextField(blank=True)
