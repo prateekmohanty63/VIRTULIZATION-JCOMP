@@ -21,6 +21,9 @@ urlpatterns=[
     # appointment crud
     path('docAppointment/',views.DoctorAppointment,name='docAppointment'),
 
+    # search urls  
+  #  path('DocsearchResult/',views.DocsearchResult,name='DocsearchResult'),
+
 
     # rest crud
 

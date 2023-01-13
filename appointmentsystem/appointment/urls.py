@@ -17,6 +17,10 @@ urlpatterns=[
     path('hospitalReg/',views.hospitalRegistration,name='hospitalReg'),
 
 
+     # search views
+    path('DocsearchResult/',views.DocsearchResult,name='DocsearchResult'),
+
+
     # appointment crud
     
     path('appointment/',AppointmentViewSet.as_view({
