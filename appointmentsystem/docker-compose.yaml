@@ -17,7 +17,7 @@ services:
     build:
       context: . 
       dockerfile: Dockerfile
-    command: 'python -u consumer.py'
+    command: 'python -u appointment/consumer.py'
     depends_on:
       - db
    

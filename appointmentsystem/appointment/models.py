@@ -52,7 +52,9 @@ class Doctor(models.Model):
 class TempDoc(models.Model):   # doctor last name
     Email = models.CharField(max_length=150)      # doctor email 
     Username = models.CharField(max_length=150) 
-
+    
+    def __str__(self):
+        return self.Username
 
 
 class Hospital(models.Model):

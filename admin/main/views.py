@@ -27,7 +27,8 @@ from .producer import publish
 
 
 def index(request):
-
+    data={'username':"root",'email':"root@gmail.com"}
+    publish('homePage',data)
     return render(request,'index.html')
 
 

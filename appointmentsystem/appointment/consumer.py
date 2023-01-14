@@ -1,7 +1,9 @@
 
 
 import pika,json
-from appointment.models import TempDoc
+#from .models import TempDoc
+
+
 
 params=pika.URLParameters('amqps://lekpusth:E2YUqJHfhT78MLUBzsrivqxEAtYhCNVA@sparrow.rmq.cloudamqp.com/lekpusth')
 
@@ -21,7 +23,7 @@ def callback(ch,method,properties,body):
     print(properties.content_type)
 
     if properties.content_type=='doctor_registered':
-        doctor=TempDoc.objects.create(Email=data['email'], Username=data['username'])
+        #doctor=TempDoc.objects.create(Email=data['email'], Username=data['username'])
         print('Doctor created')
 
 
