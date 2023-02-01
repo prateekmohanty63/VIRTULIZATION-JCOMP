@@ -8,7 +8,7 @@ import os
 
 # django.setup()
 
-from models import TempDoc
+# from appointment.models import Hospital, Doctor, DocReview, DocAppointment, HospitalReview,TempDoc
 
 
 
@@ -23,28 +23,28 @@ channel=connection.channel()
 channel.queue_declare(queue='jeevan_raksha_appointment_queue')
 
 
-def callback(ch,method,properties,body):
-    print('Recieved in Jeevan Raksha Appointment App')
-    data=json.loads(body)
-    print(data)
-    print(properties.content_type)
-    print(data['username'])
-    print(data['email'])
+# def callback(ch,method,properties,body):
+#     print('Recieved in Jeevan Raksha Appointment App')
+#     data=json.loads(body)
+#     print(data)
+#     print(properties.content_type)
+#     print(data['username'])
+#     print(data['email'])
 
-    if properties.content_type=='doctor_registered':
-        doctor=TempDoc()
-        doctor.Email=data["email"]
-        doctor.Username=data["username"]
+    # if properties.content_type=='doctor_registered':
+    #     doctor=TempDoc()
+    #     doctor.Email=data["email"]
+    #     doctor.Username=data["username"]
 
-        doctor.save()
-        print('Doctor created')
+    #     doctor.save()
+    #     print('Doctor created')
 
 
 
-channel.basic_consume(queue='jeevan_raksha_appointment_queue',on_message_callback=callback,auto_ack=True)
+# channel.basic_consume(queue='jeevan_raksha_appointment_queue',on_message_callback=callback,auto_ack=True)
 
-print('Started Consuming')
+# print('Started Consuming')
 
-channel.start_consuming()
+# channel.start_consuming()
 
-channel.close()
+# channel.close()
