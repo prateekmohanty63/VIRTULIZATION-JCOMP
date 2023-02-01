@@ -1,7 +1,14 @@
 
 
-import pika,json
-#from .models import TempDoc
+import pika,json,django
+
+import os
+
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'appointmentsystem.settings')
+
+# django.setup()
+
+from models import TempDoc
 
 
 
@@ -21,9 +28,15 @@ def callback(ch,method,properties,body):
     data=json.loads(body)
     print(data)
     print(properties.content_type)
+    print(data['username'])
+    print(data['email'])
 
     if properties.content_type=='doctor_registered':
-        #doctor=TempDoc.objects.create(Email=data['email'], Username=data['username'])
+        doctor=TempDoc()
+        doctor.Email=data["email"]
+        doctor.Username=data["username"]
+
+        doctor.save()
         print('Doctor created')
 
 
