@@ -18,3 +18,4 @@ six
 SQLAlchemy
 urllib3
 Werkzeug
+Flask-Mail
