@@ -35,9 +35,9 @@ def callback(ch,method,properties,body):
     print('Recieved in Jeevan Raksha Appointment App')
     data=json.loads(body)
     print(data)
-    print(properties.content_type)
-    print(data['username'])
-    print(data['email'])
+    # print(properties.content_type)
+    # print(data['username'])
+    # print(data['email'])
 
     if properties.content_type=='doctor_registered':
         mycursor = mydb.cursor()
@@ -49,6 +49,23 @@ def callback(ch,method,properties,body):
         mydb.commit()
 
         print(mycursor.rowcount, "record inserted.")
+    
+    if properties.content_type=="appointment_made":
+        mycursor=mydb.cursor()
+        print("Inside doctor appointment")
+        
+
+
+        sql="INSERT INTO appointment_tempappointment (user_id,doctor_id,dateOfAppointment,AdditionalMessage) VALUES (%s,%s,%s,%s)"
+
+        val=(1,1,data['doa'],data['msg'])
+
+        mycursor.execute(sql,val)
+
+        mydb.commit()
+
+        print(mycursor.rowcount,"appointment added")
+        
     
 
 

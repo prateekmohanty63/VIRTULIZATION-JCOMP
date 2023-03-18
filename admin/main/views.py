@@ -284,36 +284,40 @@ def DoctorAppointment(request):
                     "\n\nThe doctor will message to your appointment enquiry to your email in a span of 2-3 days" + 
                     "\n\nFor any queries please reply to this mail"
                 )
-        userEmail = request.user.email
+        # userEmail = request.user.email
 
-        useremail = send_mail (
-                userSubject,
-                userBody,
-                "prateekmohanty63@gmail.com",
-                ["prateekmohanty63@gmail.com"],
-                fail_silently=False
-        )
+        # useremail = send_mail (
+        #         userSubject,
+        #         userBody,
+        #         "prateekmohanty63@gmail.com",
+        #         ["prateekmohanty63@gmail.com"],
+        #         fail_silently=False
+        # )
 
-        doctorSubject = "Appointment enquiry from " + user.username 
-        doctorBody = ("Hi Doctor " + doctor.FirstName + doctor.LastName + 
-                    "\n\nThis is to inform you that we got an appointment request from " + user.username+ 
-                    "\n\nAppointment Date: " + DateOfAppointment + 
-                    "\n\nAdditional Message: " + additionalMessage + 
-                    "\n\nPlease respond to his enquiry within 2-3 days, and contact with the user if necessary" + 
-                    "\n\nFor any queries please reply to this mail"
-                )
+        # doctorSubject = "Appointment enquiry from " + user.username 
+        # doctorBody = ("Hi Doctor " + doctor.FirstName + doctor.LastName + 
+        #             "\n\nThis is to inform you that we got an appointment request from " + user.username+ 
+        #             "\n\nAppointment Date: " + DateOfAppointment + 
+        #             "\n\nAdditional Message: " + additionalMessage + 
+        #             "\n\nPlease respond to his enquiry within 2-3 days, and contact with the user if necessary" + 
+        #             "\n\nFor any queries please reply to this mail"
+        #         )
 
-        doctorEmail = doctor.Email
+        # doctorEmail = doctor.Email
 
-        doctoremail= send_mail (
-                doctorSubject,
-                doctorBody,
-                "prateekmohanty63@gmail.com",
-                [doctorEmail],
-                fail_silently=False
-        )
+        # doctoremail= send_mail (
+        #         doctorSubject,
+        #         doctorBody,
+        #         "prateekmohanty63@gmail.com",
+        #         [doctorEmail],
+        #         fail_silently=False
+        # )
 
         # send a mail to doctor and the user
+
+        data={'user':request.user.id,'doctor':doctor.id,'doa':DateOfAppointment,'msg':additionalMessage}
+
+        publish('appointment_made',data)
 
         messages.success(request, 'Appointment sent successfully')
         return redirect('index')

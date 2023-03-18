@@ -77,6 +77,16 @@ class TempDoc(models.Model):   # doctor last name
     def __str__(self):
         return self.Username
 
+class TempAppointment(models.Model):
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    doctor=models.ForeignKey(TempDoc,on_delete=models.DO_NOTHING)
+    dateOfAppointment=models.DateField()
+    AdditionalMessage=models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.user.username
+
+
 
 class Hospital(models.Model):
     HospitalName = models.CharField(max_length=150)   # Hospital Name  

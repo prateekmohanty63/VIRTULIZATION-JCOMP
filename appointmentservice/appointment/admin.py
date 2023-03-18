@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from appointment.models import Doctor,Hospital,DocReview,DocAppointment,HospitalReview,TempDoc
+from appointment.models import Doctor,Hospital,DocReview,DocAppointment,HospitalReview,TempDoc,TempAppointment
 
 # Register your models here.
 
@@ -25,3 +25,5 @@ admin.site.register(DocAppointment)
 admin.site.register(HospitalReview)
 
 admin.site.register(TempDoc)
+
+admin.site.register(TempAppointment)
