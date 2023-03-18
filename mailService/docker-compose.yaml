@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  backend:
+    container_name: jeevan_raksha_mail_service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python main.py'
+    ports:
+      - 8002:5000
+    volumes:
+      - .:/app
+  
+  queue:
+    container_name: jeevan_raksha_mail_queue
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: 'python -u consumer.py'
