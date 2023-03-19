@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jeevan_raksha_admin
+  labels:
+    app: admim
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jeevan_raksha_admin
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 3
+    template:
+      metadata:
+        labels:
+          app: jeevan_raksha_admin
+      spec:
+        containers:
+          - name: jeevan_raksha_admin
+            image: prateek2002/jeevanraksha
+            ports:
+              - containerPort: 8000
+            envFrom:
+              - configMapRef:
+                name: admin-configmap
+              - secretRef:
+                name: admin-secret
+
+

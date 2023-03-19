@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: jeevan_raksha_admin
+spec:
+  selector: 
+    app: jeevan_raksha_admin
+  type: ClusterIP
+  ports:
+    - port:8000
+      targetPort: 8000
+      protocol: TCP
